@@ -1,26 +1,231 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================================
+   YWCA CENTRAL VIRGINIA DESIGN SYSTEM
+   Source of truth: YWCA_BRAND_BOOK.pdf (p.34 Typography, p.35 Color)
+   Persimmon is "a critical brand signal that should never be
+   overpowered or replaced by other colors."
+   ============================================================ */
+
+@theme {
+  /* --- Primary palette (brand book p.35) --- */
+  --color-persimmon: #fa4616; /* Pantone 172 C, dominant brand color */
+  --color-persimmon-600: #e03c0f;
+  --color-persimmon-700: #bf3009;
+  --color-persimmon-100: #ffe9e2;
+  --color-persimmon-050: #fff5f1;
+
+  /* --- Neutrals --- */
+  --color-ink: #000000;
+  --color-ink-900: #0b0b0c;
+  --color-ink-800: #17181a;
+  --color-ink-700: #26282c;
+  --color-ink-600: #3d4046;
+  --color-ink-500: #5f636b;
+  --color-ink-400: #8a8f98;
+  --color-ink-300: #bdbdbd; /* Pantone Cool Gray 5 */
+  --color-ink-200: #dcdee1;
+  --color-ink-100: #eceef0;
+  --color-ink-050: #f6f7f8;
+  --color-paper: #ffffff;
+  --color-bone: #f7f4f0; /* warm ground for editorial surfaces */
+  --color-bone-dark: #efe9e2;
+
+  /* --- Extended accents (brand book charts palette + approved secondaries) --- */
+  --color-mahogany: #501607;
+  --color-cyan-brand: #16cafa;
+  --color-gold: #f1d152;
+  --color-teal: #31807d;
+  --color-slate-brand: #344d5c;
+  --color-brick: #a63c36;
+
+  /* --- Typography ---
+     Brand: Avenir Next LT Pro Heavy (display) / Source Sans Pro (text).
+     Web mapping: Figtree, the closest freely-licensable geometric-humanist
+     match to Avenir Next. Source Sans 3 is Source Sans Pro exactly. */
+  --font-display: var(--font-figtree), "Avenir Next", Avenir, "Segoe UI", sans-serif;
+  --font-sans: var(--font-source-sans), "Source Sans Pro", system-ui, sans-serif;
+
+  /* --- Fluid type scale (mobile-first) --- */
+  --text-display-1: clamp(3rem, 1.5rem + 7.2vw, 9rem);
+  --text-display-2: clamp(2.5rem, 1.4rem + 5.2vw, 6.5rem);
+  --text-h1: clamp(2.25rem, 1.45rem + 3.5vw, 4.75rem);
+  --text-h2: clamp(1.85rem, 1.3rem + 2.4vw, 3.4rem);
+  --text-h3: clamp(1.35rem, 1.1rem + 1.1vw, 2.05rem);
+  --text-lead: clamp(1.15rem, 1.05rem + 0.55vw, 1.5rem);
+
+  /* --- Motion --- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+
+  /* --- Elevation --- */
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px -12px rgb(0 0 0 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.05), 0 24px 48px -20px rgb(0 0 0 / 0.22);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ============================================================
+   BASE
+   ============================================================ */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: auto; /* ScrollSmoother owns scrolling */
+
+    /* 17px root. Tailwind's type and spacing scales are both rem-based, so
+       this lifts the whole page together instead of leaving the type larger
+       inside unchanged boxes. */
+    font-size: 106.25%;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink-900);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.022em;
+    text-wrap: balance;
+  }
+
+  /* Display type needs far tighter leading than the browser default, or
+     multi-line section headings drift apart. */
+  h1, h2 { line-height: 1.03; }
+  h3, h4 { line-height: 1.15; }
+
+  p { text-wrap: pretty; }
+
+  /* Keyboard focus only, never a mouse-click ring */
+  :focus-visible {
+    outline: 3px solid var(--color-persimmon);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--color-persimmon);
+    color: #fff;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+
+@utility container-page {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  max-width: 90rem;
+  @media (width >= 48rem) { padding-inline: 2.5rem; }
+  @media (width >= 80rem) { padding-inline: 4rem; }
 }
+
+/* Display lockup: tight, heavy, Avenir-Next-Heavy energy */
+@utility display-lockup {
+  font-family: var(--font-display);
+  font-weight: 900;
+  line-height: 0.88;
+  letter-spacing: -0.035em;
+  text-transform: none;
+}
+
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Elements the motion layer reveals. Base state is set in CSS so there is
+   no flash-of-unstyled-position before GSAP boots; `.motion-ready` on <html>
+   is only added when JS + motion are actually going to run. */
+@utility reveal-init {
+  .motion-ready & {
+    opacity: 0;
+    transform: translate3d(0, 1.75rem, 0);
+    will-change: transform, opacity;
+  }
+}
+
+@utility hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  /* Never leave reduced-motion users with content stuck at opacity 0 */
+  .motion-ready .reveal-init {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* The desktop program stack overlaps all six cards in one box, so before the
+   pinned timeline engages they would otherwise render solid on top of each
+   other and the LAST card would be the one on show. Starting them hidden makes
+   "faded until the pin registers" true from first paint rather than from
+   whenever GSAP happens to initialise. Scoped to .motion-ready, so no-JS and
+   reduced-motion visitors get plain solid cards. */
+@media (width >= 64rem) {
+  /* Section figures grow in from a quarter size on desktop. Declaring the
+     start state here rather than in JS means the drawing is never painted at
+     full size for a frame before GSAP boots. Scoped to .motion-ready so no-JS
+     and reduced-motion visitors still get a static drawing. */
+  @media (width >= 64rem) {
+    .motion-ready [data-section-figure] {
+      opacity: 0;
+      transform: scale(0.25);
+    }
+  }
+
+  .motion-ready [data-prog-card] {
+    opacity: 0;
+  }
+}
+
+/* GSAP SplitText line masks clip to the line box, which cuts descenders off
+   headlines ("g", "p", "y"). A little breathing room inside the mask, pulled
+   back out with a negative margin, keeps the reveal tight without cropping
+   the type. */
+.split-line-mask {
+  padding-bottom: 0.14em !important;
+  margin-bottom: -0.14em !important;
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.75rem;
+  z-index: 200;
+  transform: translateY(-150%);
+  transition: transform 0.18s var(--ease-out-quart);
+  background: var(--color-ink);
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+}
+.skip-link:focus { transform: translateY(0); }
