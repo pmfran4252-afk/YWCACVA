@@ -54,7 +54,7 @@ export default function SectionFigure({
 }: Props) {
   const scope = useRef<HTMLDivElement>(null);
   const dark = tone === "dark";
-  const src = `/img/drawings/${name}${dark ? "-light" : ""}.png`;
+  const src = `/img/drawings/${name}${dark ? "-light" : ""}.webp`;
   const centered = align === "center";
 
   useGSAP(

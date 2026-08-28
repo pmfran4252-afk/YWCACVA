@@ -68,7 +68,7 @@ export default function BackToTop() {
       type="button"
       onClick={toTop}
       aria-label="Back to top"
-      className="invisible fixed right-4 bottom-24 z-95 grid size-12 place-items-center rounded-full border border-white/15 bg-ink-900/90 text-white opacity-0 shadow-[var(--shadow-lift)] backdrop-blur-md transition-colors duration-300 hover:border-persimmon hover:bg-persimmon md:right-8 md:bottom-8 md:size-14"
+      className="invisible fixed right-4 bottom-24 z-85 grid size-12 place-items-center rounded-full border border-white/15 bg-ink-900/90 text-white opacity-0 shadow-[var(--shadow-lift)] backdrop-blur-md transition-colors duration-300 hover:border-persimmon hover:bg-persimmon md:right-8 md:bottom-8 md:size-14"
     >
       <svg viewBox="0 0 24 24" fill="none" className="size-5 md:size-6" aria-hidden="true">
         <path

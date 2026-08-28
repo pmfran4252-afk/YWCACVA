@@ -104,7 +104,7 @@ export default function Section({
           <Reveal className="mt-14 md:hidden">
             <div className="relative aspect-[16/9] w-full opacity-80">
               <Image
-                src={`/img/drawings/${figure}${tone === "ink" ? "-light" : ""}.png`}
+                src={`/img/drawings/${figure}${tone === "ink" ? "-light" : ""}.webp`}
                 alt=""
                 fill
                 sizes="100vw"

@@ -14,7 +14,7 @@
  *
  *   node scripts/key-white.mjs <source.png> <name> [maxWidth]
  *
- * Writes public/img/drawings/<name>.png and <name>-light.png.
+ * Writes public/img/drawings/<name>.webp and <name>-light.webp.
  */
 import { existsSync } from "node:fs";
 import path from "node:path";
@@ -58,9 +58,9 @@ for (const [suffix, ink] of [["", 0], ["-light", 255]]) {
     rgba[i * 4 + 3] = alpha[i];
   }
 
-  const out = path.join(DIR, `${name}${suffix}.png`);
+  const out = path.join(DIR, `${name}${suffix}.webp`);
   const written = await sharp(rgba, { raw: { width, height, channels: 4 } })
-    .png({ compressionLevel: 9 })
+    .webp({ quality: 82, alphaQuality: 100, effort: 6 })
     .toFile(out);
 
   console.log(`${out}  ${written.width}x${written.height}  ${(written.size / 1024).toFixed(0)}KB`);

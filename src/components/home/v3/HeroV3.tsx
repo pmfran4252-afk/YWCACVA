@@ -117,7 +117,7 @@ export default function HeroV3({
       >
         <div className="relative size-full opacity-[0.16] mix-blend-screen md:opacity-[0.18]">
           <Image
-            src="/img/woman-breaking-barriers.png"
+            src="/img/woman-breaking-barriers.webp"
             alt=""
             fill
             priority

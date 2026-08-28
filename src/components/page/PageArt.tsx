@@ -49,7 +49,7 @@ export default function PageArt({
      PNG leaves a faint white rectangle where alpha is zero, because the
      compositor inverts (0,0,0,0) to (255,255,255,0). The "-light" files carry
      the inversion already, so no filter and no blend mode are needed. */
-  const src = `/img/drawings/${name}${dark ? "-light" : ""}.png`;
+  const src = `/img/drawings/${name}${dark ? "-light" : ""}.webp`;
 
   const opacity = dark
     ? emphasis === "subtle"

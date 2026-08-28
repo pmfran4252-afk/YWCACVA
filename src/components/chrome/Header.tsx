@@ -62,97 +62,123 @@ export default function Header({ tone = "light", donateUrl }: Props) {
   const isDark = !scrolled && (tone === "dark" || tone === "overlay");
 
   return (
-    <header
-      ref={headerRef}
-      className={[
-        "fixed inset-x-0 z-90 transition-[background-color,box-shadow,backdrop-filter] duration-300 ease-[var(--ease-out-quart)]",
-        "top-0 md:top-12",
-        // At the very top the bar carries no background at all, so the hero
-        // reads as one uninterrupted field. It only gains a surface once the
-        // page is scrolled and the bar starts overlapping content.
-        scrolled
-          ? inverted
-            ? "bg-paper/95 shadow-[0_1px_0_rgb(0_0_0/0.08)] backdrop-blur-xl supports-[backdrop-filter]:bg-paper/85"
-            : "bg-ink-900/95 shadow-[0_1px_0_rgb(255_255_255/0.10)] backdrop-blur-xl supports-[backdrop-filter]:bg-ink-900/85"
-          : "bg-transparent",
-      ].join(" ")}
-    >
-      <div className="container-page flex h-20 items-center justify-between gap-6 md:h-24">
-        <Logo tone={scrolled ? (inverted ? "persimmon" : "white") : isDark ? "white" : "persimmon"} />
+    <>
+      <header
+        ref={headerRef}
+        className={[
+          "fixed inset-x-0 z-90 transition-[background-color,box-shadow,backdrop-filter] duration-300 ease-[var(--ease-out-quart)]",
+          "top-0 md:top-12",
+          // At the very top the bar carries no background at all, so the hero
+          // reads as one uninterrupted field. It only gains a surface once the
+          // page is scrolled and the bar starts overlapping content.
+          scrolled
+            ? inverted
+              ? "bg-paper/95 shadow-[0_1px_0_rgb(0_0_0/0.08)] backdrop-blur-xl supports-[backdrop-filter]:bg-paper/85"
+              : "bg-ink-900/95 shadow-[0_1px_0_rgb(255_255_255/0.10)] backdrop-blur-xl supports-[backdrop-filter]:bg-ink-900/85"
+            : "bg-transparent",
+        ].join(" ")}
+      >
+        <div className="container-page flex h-20 items-center justify-between gap-6 md:h-24">
+          <Logo
+            tone={
+              scrolled
+                ? inverted
+                  ? "persimmon"
+                  : "white"
+                : isDark
+                  ? "white"
+                  : "persimmon"
+            }
+          />
 
-        {/* ---------- Desktop nav ---------- */}
-        <nav aria-label="Main" className="hidden lg:block">
-          <ul className="flex items-center gap-1">
-            {navigation
-              .filter((item) => item.href !== "/shop")
-              .map((item) => (
-              <DesktopNavItem
-                key={item.href}
-                item={item}
-                dark={scrolled ? !inverted : isDark}
-                isOpen={openMenu === item.href}
-                onOpen={() => setOpenMenu(item.href)}
-                onClose={() => setOpenMenu(null)}
-                active={pathname.startsWith(item.href)}
-                />
-              ))}
-          </ul>
-        </nav>
+          {/* ---------- Desktop nav ---------- */}
+          <nav aria-label="Main" className="hidden lg:block">
+            <ul className="flex items-center gap-1">
+              {navigation
+                .filter((item) => item.href !== "/shop")
+                .map((item) => (
+                  <DesktopNavItem
+                    key={item.href}
+                    item={item}
+                    dark={scrolled ? !inverted : isDark}
+                    isOpen={openMenu === item.href}
+                    onOpen={() => setOpenMenu(item.href)}
+                    onClose={() => setOpenMenu(null)}
+                    active={pathname.startsWith(item.href)}
+                  />
+                ))}
+            </ul>
+          </nav>
 
-        <div className="flex items-center gap-2">
-          {/* Desktop shop entry: an icon rather than another word, kept next
+          <div className="flex items-center gap-2">
+            {/* Desktop shop entry: an icon rather than another word, kept next
               to Donate so the two "give something" actions sit together. */}
-          <SafeLink
-            href="/shop"
-            aria-label="Shop"
-            className={`hidden size-11 place-items-center rounded-full transition-colors lg:grid ${
-              (scrolled ? !inverted : isDark)
-                ? "text-white hover:bg-white/10"
-                : "text-ink-900 hover:bg-ink-050"
-            } ${pathname.startsWith("/shop") ? "text-persimmon" : ""}`}
-          >
-            <svg viewBox="0 0 24 24" fill="none" className="size-6" aria-hidden="true">
-              <path
-                d="M6 8h12l-1 11.2a1.8 1.8 0 0 1-1.8 1.6H8.8A1.8 1.8 0 0 1 7 19.2L6 8Z"
-                stroke="currentColor"
-                strokeWidth="1.7"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M9.2 8V6.4a2.8 2.8 0 0 1 5.6 0V8"
-                stroke="currentColor"
-                strokeWidth="1.7"
-                strokeLinecap="round"
-              />
-            </svg>
-          </SafeLink>
+            <SafeLink
+              href="/shop"
+              aria-label="Shop"
+              className={`hidden size-11 place-items-center rounded-full transition-colors lg:grid ${
+                (scrolled ? !inverted : isDark)
+                  ? "text-white hover:bg-white/10"
+                  : "text-ink-900 hover:bg-ink-050"
+              } ${pathname.startsWith("/shop") ? "text-persimmon" : ""}`}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                className="size-6"
+                aria-hidden="true"
+              >
+                <path
+                  d="M6 8h12l-1 11.2a1.8 1.8 0 0 1-1.8 1.6H8.8A1.8 1.8 0 0 1 7 19.2L6 8Z"
+                  stroke="currentColor"
+                  strokeWidth="1.7"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M9.2 8V6.4a2.8 2.8 0 0 1 5.6 0V8"
+                  stroke="currentColor"
+                  strokeWidth="1.7"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </SafeLink>
 
-          <SafeLink
-            href={donateUrl}
-            className="hidden h-12 items-center rounded-full bg-persimmon px-7 text-[16.5px] font-bold text-white transition-all duration-300 hover:bg-persimmon-600 hover:shadow-[0_10px_28px_-10px_rgba(250,70,22,0.8)] sm:inline-flex"
-          >
-            Donate
-          </SafeLink>
+            <SafeLink
+              href={donateUrl}
+              className="hidden h-12 items-center rounded-full bg-persimmon px-7 text-[16.5px] font-bold text-white transition-all duration-300 hover:bg-persimmon-600 hover:shadow-[0_10px_28px_-10px_rgba(250,70,22,0.8)] sm:inline-flex"
+            >
+              Donate
+            </SafeLink>
 
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-            aria-label={open ? "Close menu" : "Open menu"}
-            className={`grid size-12 place-items-center rounded-full transition-colors lg:hidden ${
-              (scrolled ? !inverted : isDark)
-                ? "text-white hover:bg-white/10"
-                : "text-ink-900 hover:bg-ink-050"
-            }`}
-          >
-            <MenuIcon open={open} />
-          </button>
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+              aria-label={open ? "Close menu" : "Open menu"}
+              className={`grid size-12 place-items-center rounded-full transition-colors lg:hidden ${
+                (scrolled ? !inverted : isDark)
+                  ? "text-white hover:bg-white/10"
+                  : "text-ink-900 hover:bg-ink-050"
+              }`}
+            >
+              <MenuIcon open={open} />
+            </button>
+          </div>
         </div>
-      </div>
+      </header>
 
-      <MobileMenu open={open} donateUrl={donateUrl} onClose={() => setOpen(false)} />
-    </header>
+      {/* Deliberately a sibling of <header>, not a child. Once scrolled the
+          bar gains `backdrop-filter`, and a backdrop-filter makes an element
+          the containing block for its `position: fixed` descendants, exactly
+          as `transform` does. Nested here, the panel collapsed from the full
+          viewport to the height of the bar the moment the blur appeared. */}
+      <MobileMenu
+        open={open}
+        donateUrl={donateUrl}
+        onClose={() => setOpen(false)}
+      />
+    </>
   );
 }
 
@@ -194,7 +220,9 @@ function DesktopNavItem({
         href={item.href}
         onFocus={onOpen}
         className={`relative flex h-11 items-center rounded-full px-4 text-[16.5px] font-bold transition-colors ${
-          dark ? "text-white/85 hover:text-white" : "text-ink-700 hover:text-ink-900"
+          dark
+            ? "text-white/85 hover:text-white"
+            : "text-ink-700 hover:text-ink-900"
         }`}
       >
         {item.label}
@@ -258,13 +286,17 @@ function MobileMenu({
         gsap
           .timeline()
           .to(el, { autoAlpha: 1, duration: 0.25, ease: "power2.out" })
-          .from(el.querySelectorAll("[data-menu-item]"), {
-            y: 22,
-            autoAlpha: 0,
-            duration: 0.5,
-            stagger: 0.045,
-            ease: "power3.out",
-          }, "-=0.1");
+          .from(
+            el.querySelectorAll("[data-menu-item]"),
+            {
+              y: 22,
+              autoAlpha: 0,
+              duration: 0.5,
+              stagger: 0.045,
+              ease: "power3.out",
+            },
+            "-=0.1",
+          );
       } else {
         gsap.to(el, {
           autoAlpha: 0,
@@ -282,7 +314,7 @@ function MobileMenu({
       id="mobile-menu"
       ref={root}
       hidden={!open}
-      className="invisible fixed inset-x-0 top-0 bottom-0 z-90 overflow-y-auto bg-paper opacity-0 lg:hidden"
+      className="invisible fixed inset-x-0 top-0 bottom-0 z-95 overflow-y-auto bg-paper opacity-0 lg:hidden"
     >
       {/* The panel covers the bar, so the hamburger's X goes with it. The menu
           carries its own close control. */}
@@ -294,8 +326,18 @@ function MobileMenu({
           aria-label="Close menu"
           className="grid size-12 place-items-center rounded-full text-ink-900 transition-colors hover:bg-ink-050"
         >
-          <svg viewBox="0 0 24 24" className="size-7" fill="none" aria-hidden="true">
-            <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+          <svg
+            viewBox="0 0 24 24"
+            className="size-7"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M6 6l12 12M18 6L6 18"
+              stroke="currentColor"
+              strokeWidth="1.9"
+              strokeLinecap="round"
+            />
           </svg>
         </button>
       </div>
@@ -369,8 +411,19 @@ function MenuIcon({ open }: { open: boolean }) {
 
 function ChevronIcon() {
   return (
-    <svg viewBox="0 0 16 16" className="size-4 text-ink-300" fill="none" aria-hidden="true">
-      <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    <svg
+      viewBox="0 0 16 16"
+      className="size-4 text-ink-300"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M6 3l5 5-5 5"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
